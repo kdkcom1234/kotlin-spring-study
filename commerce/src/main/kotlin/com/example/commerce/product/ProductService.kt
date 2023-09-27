@@ -14,7 +14,8 @@ class ProductService(private val productClient: ProductClient,
     private val mapper = jacksonObjectMapper()
 
     // 애플리케이션을 시작하면 한 번은 수행됨
-    @Scheduled(fixedRate = 1000 * 60 * 60)
+//    @Scheduled(fixedRate = 1000 * 60 * 60)
+//    @Scheduled(cron = "10 * * * * * *")
     fun scheduledFetchTopPromotion() {
         println("--called by schedule: ${Date().time}--")
         val result = productClient.getTopPromotion()
