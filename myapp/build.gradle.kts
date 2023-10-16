@@ -5,6 +5,9 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.3"
 	kotlin("jvm") version "1.8.22"
 	kotlin("plugin.spring") version "1.8.22"
+	// Apply GraalVM Native Image plugin
+	id("org.graalvm.buildtools.native") version "0.9.27"
+
 }
 
 group = "com.example"
@@ -20,12 +23,7 @@ repositories {
 
 val exposedVersion: String by project
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web") {
-		// tomcat 제외 처리
-		exclude(module= "spring-boot-starter-tomcat")
-	}
-	// undertow 사용
-	implementation("org.springframework.boot:spring-boot-starter-undertow:3.1.4")
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	runtimeOnly("com.mysql:mysql-connector-j")
