@@ -33,7 +33,8 @@ dependencies {
 	// spring-data-jdbc
 	// application.properties
 	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-jdbc
-	//	implementation("org.springframework.data:spring-data-jdbc:3.1.3")
+	// JdbcTemplate을 사용
+	implementation("org.springframework.data:spring-data-jdbc:3.1.3")
 
 	// expose 의존성
 	implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
