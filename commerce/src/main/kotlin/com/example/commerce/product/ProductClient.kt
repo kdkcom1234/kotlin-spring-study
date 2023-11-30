@@ -8,7 +8,7 @@ data class TopProductResponse(
     val name: String,
     val image: String
 )
-@FeignClient(name="productClient", url="http://192.168.100.62:8082/products")
+@FeignClient(name="productClient")
 interface ProductClient {
     @GetMapping("/top-promotion")
     fun getTopPromotion() : List<TopProductResponse>

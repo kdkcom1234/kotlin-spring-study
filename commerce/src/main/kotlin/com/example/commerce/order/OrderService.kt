@@ -1,7 +1,9 @@
 package com.example.commerce.order
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
 import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.context.support.beans
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
