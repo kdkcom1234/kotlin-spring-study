@@ -52,10 +52,15 @@ class AuthController(private val service: AuthService) {
     fun signIn(
         @RequestParam username: String,
         @RequestParam password: String,
+        // Referer: https://강애진.cloudfront.net/auth/login
+        // Referer: https://이현미.cloudfront.net/auth/login
+        // Referer: http://localhost:5500/auth/login -> http://localhost:8080/auth/sigiin
+        @RequestHeader(value = "referer", required = false) referer: String,
         res: HttpServletResponse,
     ): ResponseEntity<*> {
         println(username)
         println(password)
+        println(referer)
 
         val (result, message) = service.authenticate(username, password)
 
@@ -64,7 +69,7 @@ class AuthController(private val service: AuthService) {
             val cookie = Cookie("token", message)
             cookie.path = "/"
             cookie.maxAge = (JwtUtil.TOKEN_TIMEOUT / 1000L).toInt() // 만료시간
-            cookie.domain = "localhost" // 쿠키를 사용할 수 있 도메인
+            cookie.domain = referer.split("/")[2].split(":")[0] // 쿠키를 사용할 수 있 도메인
 
             // 응답헤더에 쿠키 추가
             res.addCookie(cookie)
@@ -74,7 +79,7 @@ class AuthController(private val service: AuthService) {
                 .status(HttpStatus.FOUND)
                 .location(
                     ServletUriComponentsBuilder
-                        .fromHttpUrl("http://localhost:5500")
+                        .fromHttpUrl("${referer.split("/")[0]}://${referer.split("/")[2]}")
                         .build().toUri()
                 )
                 .build<Any>()
@@ -85,7 +90,7 @@ class AuthController(private val service: AuthService) {
             .status(HttpStatus.FOUND)
             .location(
                 ServletUriComponentsBuilder
-                    .fromHttpUrl("http://localhost:5500/login.html?err=$message")
+                    .fromHttpUrl("$referer?err=$message")
                     .build().toUri()
             )
             .build<Any>()
